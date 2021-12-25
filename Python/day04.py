@@ -1,5 +1,4 @@
 
-import numpy
 
 file = open("/home/apourcel/Documents/Scripts/adventofcode2021/inputs/day04.txt", "r")
 
@@ -12,21 +11,23 @@ print(nums)
 file.readline()
 input = file.read()
 input = input.split("\n\n")
-tables=numpy(len(input), 5, 5, 2)
+tables=[]
 i = 0
 j = 0
 k = 0
-tables[0][0][0] = [12, 0]
 
-for i, table in enumerate(input):
+for table in input:
     table = table.split("\n")
-    for j, row in enumerate(table):
+    new_table = []
+    for row in table:
         row = row.replace("  ", " ").split(" ")
         if row[0] == '':
             row.pop(0)
-        for k, column in enumerate(row):
-            tables[i][j][k] = [int(column), 0]
-            print("")
+        new_row = []
+        for column in row:
+            new_row.append([int(column), 0])
+        new_table.append(new_row)
+    tables.append(new_table)
 
 print(tables)
 
