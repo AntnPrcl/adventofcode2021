@@ -97,12 +97,69 @@ func write_lines(input []line) {
 			}
 		}
 	}
+	for _, line := range mapp.Rows {
+		fmt.Println(line)
+	}
 	fmt.Printf("Ans : " + strconv.Itoa(count_cell(mapp)))
 }
 
+func write_lines_II(input []line) {
+	mapp := generate_map()
+	for _, line := range input {
+		if line.start.X == line.end.X || line.start.Y == line.end.Y {
+			if line.start.X == line.end.X {
+				if line.start.Y < line.end.Y {
+					for i := line.start.Y; i <= line.end.Y; i++ {
+						mapp.Rows[i].Column[line.start.X] += 1
+					}
+				} else {
+					for i := line.end.Y; i <= line.start.Y; i++ {
+						mapp.Rows[i].Column[line.start.X] += 1
+					}
+				}
+			} else {
+				if line.start.X < line.end.X {
+					for i := line.start.X; i <= line.end.X; i++ {
+						mapp.Rows[line.start.Y].Column[i] += 1
+					}
+				} else {
+					for i := line.end.X; i <= line.start.X; i++ {
+						mapp.Rows[line.start.Y].Column[i] += 1
+					}
+				}
+			}
+		} else {
+			if line.start.X < line.end.X {
+				line_size := line.end.X - line.start.X
+				if line.start.Y < line.end.Y {
+					for i := 0; i <= line_size; i++ {
+						mapp.Rows[line.start.Y+i].Column[line.start.X+i] += 1
+					}
+				} else {
+					for i := 0; i <= line_size; i++ {
+						mapp.Rows[line.start.Y-i].Column[line.start.X+i] += 1
+					}
+				}
+			} else {
+				line_size := line.start.X - line.end.X
+				if line.start.Y < line.end.Y {
+					for i := 0; i <= line_size; i++ {
+						mapp.Rows[line.start.Y+i].Column[line.start.X-i] += 1
+					}
+				} else {
+					for i := 0; i <= line_size; i++ {
+						mapp.Rows[line.start.Y-i].Column[line.start.X-i] += 1
+					}
+				}
+			}
+		}
+	}
+
+	fmt.Printf("Ans : " + strconv.Itoa(count_cell(mapp)))
+}
 func main() {
-	MAP_SIZE = 1000
+	MAP_SIZE = 10000
 	data := read_data()
-	data = filter_data(data)
-	write_lines(data)
+	//data = filter_data(data)
+	write_lines_II(data)
 }
