@@ -60,8 +60,45 @@ def write_lines(input : list, map: list):
 
     print("Ans : " + str(count_cell(map)))
 
+def write_lines_II(input: list, map : list):
+    for line in input:
+        if line[0] == line[2] or line[1] == line[3]:
+            if line[0] == line[2]:
+                if line[1] < line[3]:
+                    for i in range(line[1], line[3]+1, 1):
+                        map[i][line[0]] += 1
+                else:
+                    for i in range(line[3], line[1]+1, 1):
+                        map[i][line[0]] += 1
+            else:
+                if line[0] < line [2]:
+                    for i in range(line[0], line[2]+1, 1):
+                        map[line[1]][i] += 1
+                else:
+                    for i in range(line[2], line[0]+1, 1):
+                        map[line[1]][i] += 1
+        else : 
+            if line[0] < line[2]:
+                line_size = line[2] - line[0] + 1
+                if line[1] < line [3]:
+                    for i in range(line_size):
+                        map[line[1] + i][line[0] + i] += 1
+                else:
+                    for i in range(line_size):
+                        map[line[1] - i][line[0] + i] += 1
+            else:
+                line_size = line[0] - line[2] + 1
+                if line[1] < line [3]:
+                    for i in range(line_size):
+                            map[line[1] + i][line[0] - i] += 1
+                else:
+                    for i in range(line_size):
+                            map[line[1] - i][line[0] - i] += 1
+
+    print("Ans : " + str(count_cell(map)))
+
 data = read_data()
 map = generate_empty_map()
-data = filter_data(data)
-
-write_lines(data, map)
+#data = filter_data(data)
+#write_lines(data, map)
+write_lines_II(data, map)
